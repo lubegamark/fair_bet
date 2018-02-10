@@ -1,0 +1,98 @@
+{% extends 'base.html' %}
+{% block main %}
+    <div class="section section-basic">
+        <div class="container">
+            <h3 class="title">{{ request.user }}</h3>
+            <div id="buttons">
+                <h4>GameWeek {{ game_week }}</h4>
+                <p class="category">Pick your style</p>
+                <div class="row">
+                    <div class="col-md-10">
+                        {% if game_week_done %}
+                            {% if predictions %}
+                                <form>
+                                    {% for prediction in predictions %}
+                                        <div class="form-group row">
+                                            <label for="{{ prediction.game.id }}-home-score"
+                                                   class="col-sm-2 col-form-label">
+                                                {{ prediction.game.home_team }}</label>
+                                            <input name="
+{{ prediction.game.id }}-home-score"
+                                                   class="form-control col-1"
+                                                   type="number"
+                                                   value="{{ prediction.home_score }}"
+                                                   disabled="disabled">
+                                            <label class="col-sm-2 col-form-label">vs</label>
+                                            <input name="
+{{ prediction.game.id }}-away-score"
+                                                   class="form-control col-1 inline"
+                                                   type="number"
+                                                   value="{{ prediction.away_score }}"
+                                                   disabled="disabled"/>
+                                            <label for="
+{{ prediction.game.id }}-away-score"
+                                                   class="col-sm-2
+                                           col-form-label">
+                                                {{ prediction.game.away_team }}</label>
+                                        </div>
+                                    {% endfor %}
+                                </form>
+                            {% else %}
+                                <p>No illegal bets this week</p>
+                            {% endif %}
+                        {% else %}
+                            {% if predictions %}
+                                <form name="{{ game_week }}-predictions" action="" method="post">
+                                {% csrf_token %}
+                                    {% for prediction in predictions %}
+                                        <div class="form-group row">
+                                            <label for="{{ prediction.game.id }}-home-score"
+                                                   class="col-sm-2
+                                                   col-form-label">{{ preidction.game.home_team }}</label>
+                                            <input name="{{ game.id }}-home-score"
+                                                   class="form-control col-1"
+                                                   type="number"
+                                                   value="{{ prediction.home_score }}">
+                                            <label class="col-sm-2 col-form-label">vs</label>
+                                            <input name="{{ game.id }}-away-score"
+                                                   class="form-control col-1 inline"
+                                                   type="number"
+                                                   value="{{ prediction.away_score }}"/>
+                                            <label for="{{ game.id }}-away-score"
+                                                   class="col-sm-2
+                                           col-form-label">
+                                                {{ prediction.game.away_team }}</label>
+                                        </div>
+                                    {% endfor %}
+                                </form>
+                            {% else %}
+                                <form name="{{ game_week }}-predictions">
+                                    {% for game in games %}
+                                        <div class="form-group row">
+                                            <label for="{{ game.id }}-home-score"
+                                                   class="col-sm-2 col-form-label">{{ game.home_team }}</label>
+                                            <input name="{{ game.id }}-home-score"
+                                                   class="form-control col-1"
+                                                   type="number"
+                                                   value="">
+                                            <label class="col-sm-2 col-form-label">vs</label>
+                                            <input name="{{ game.id }}-away-score"
+                                                   class="form-control col-1 inline"
+                                                   type="number"
+                                                   value=""/>
+                                            <label for="{{ game.id }}-away-score"
+                                                   class="col-sm-2
+                                           col-form-label">
+                                                {{ game.away_team }}</label>
+                                        </div>
+                                    {% endfor %}
+                                </form>
+                            {% endif %}
+                        {% endif %}
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
